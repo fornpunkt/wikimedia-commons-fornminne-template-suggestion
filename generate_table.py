@@ -20,7 +20,7 @@ with open('data/image_site.csv', 'r') as file:
                     <td class="w-25">{snippet}</td>
                     <td>
                         <div class="input-group">
-                            <input type="text" readonly class="form-control" value="{'{{{{'}fornminne|{uuid}{'}}}}'}">
+                            <input type="text" readonly class="form-control" value="{'{{{{'}Fornminne|{uuid}{'}}}}'}">
                             <button class="btn btn-secondary clipboardButton" type="button">Kopiera</button>
                         </div>
                     </td>
