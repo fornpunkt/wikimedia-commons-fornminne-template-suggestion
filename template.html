@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilder föreställande kulturlämningar?</title>
+    <link href="https://fornpunkt.se/static/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fornpunkt.se/static/style.css">
+    <style>
+        table img {
+            max-height: 300px;
+            margin: auto;
+            display: block;
+        }
+
+        .toast-container {
+            position: fixed;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">FornPunkt</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Öppna/stäng meny">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                <ul class="navbar-nav"></ul>
+                <div>
+                    <a href="https://fornpunkt.se/" class="btn btn-sm btn-primary">Till FornPunkt</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <div class="container">
+            <h1>Bilder föreställande kulturlämningar?</h1>
+            <p>Här presenteras bilder ifrån Wikimedia Commons som <i>kanske</i> föreställer kulturlämningar men samtidigt saknar mallen <code>fornminne</code>. Skyltar, porträtt och fynd är vanligt förekommande men exempel på media som inte bör få mallen <code>fornminne</code>. Listan uppdaterades senast: {timestamp}</p>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Tumnagel</th>
+                    <th scope="col">Titel</th>
+                    <th scope="col">Lämning</th>
+                    <th scope="col">Utdrag</th>
+                    <th scope="col">Mall</th>
+                </tr>
+            </thead>
+            <tbody>
+                {table}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="toast-container p-3 end-0 bottom-0" aria-live="polite" aria-atomic="true"></div>
+    <div style="background: 0/cover url(https://fornpunkt.se/static/fp-contours.svg); transform: scale(-1);"
+        class="bg-primary d-print-none mt-auto py-5">
+        <footer class="text-white container h5" style="transform: scale(-1);">
+            hej@fornpunkt.se
+        </footer>
+    </div>
+    <script src="https://fornpunkt.se/static/bootstrap.min.js"></script>
+    <script>
+        function showToast(message, color) {
+          const toast = `<div class="toast align-items-center text-bg-${color} border-0 show" role="alert">
+            <div class="d-flex">
+              <div class="toast-body">${message}</div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Stäng"></button>
+            </div>
+          </div>`
+          document.querySelector('.toast-container').innerHTML = document.querySelector('.toast-container').innerHTML + toast;
+        }
+
+        [...document.querySelectorAll('.clipboardButton')].forEach(button => {
+            const input = button.previousElementSibling;
+            button.addEventListener('click', event => {
+                navigator.clipboard.writeText(input.value)
+                .then(() => {
+                    input.select();
+                    showToast('Kopierat!', 'secondary');
+                })
+                .catch(err => {
+                  showToast('Kopieringen misslyckades.', 'secondary');
+                    console.error('Could not copy text: ', err);
+                });
+            });
+        });
+      </script>
+</body>
+
+</html>
