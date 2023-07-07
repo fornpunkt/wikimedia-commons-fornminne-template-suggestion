@@ -7,7 +7,7 @@ with open('data/image_site.csv', 'r') as file:
     next(reader)  # Skip the header row
 
     for row in reader:
-        title = row[0]
+        title = row[0].replace('File:', '')
         description_page = row[1]
         thumbnail = row[2]
         snippet = row[3]
