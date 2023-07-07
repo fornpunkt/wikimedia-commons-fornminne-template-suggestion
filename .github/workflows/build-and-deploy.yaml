@@ -1,0 +1,35 @@
+name: build-and-deploy
+on:
+  push:
+    branches: [$default-branch]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCH: deploy
+      CI_COMMIT_MESSAGE: Continuous Integration Build
+      CI_COMMIT_AUTHOR: Continuous Integration
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dependencies
+        run: python -m pip install requests
+      - name: Fetch sites with Wikipedia articles
+        run: python get_sites_with_wikipedia_articles.py
+      - name: Fetch sites with categories
+        run: python get_sites_with_categories.py
+      - name: Fetch sites with images
+        run: python get_sites_with_images.py
+      - name: Generate index.html
+        run: python generate_table.py
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./output
+      - name: Deploy to Github Pages
+        uses: actions/deploy-pages@v2
+
+  
